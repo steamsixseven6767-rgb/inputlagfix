@@ -1,0 +1,21 @@
+{
+  "schemaVersion": 1,
+  "id": "zeroinputlag",
+  "version": "${version}",
+  "name": "ZeroInputLag",
+  "description": "Client-side input latency reduction: late input polling and raw, unsmoothed mouse. No gameplay assists, no server-visible changes.",
+  "authors": ["ZeroInputLag contributors"],
+  "contact": {},
+  "license": "LGPL-3.0-only",
+  "environment": "client",
+  "entrypoints": {
+    "client": ["dev.zeroinputlag.ZeroInputLagClient"]
+  },
+  "mixins": ["zeroinputlag.mixins.json"],
+  "depends": {
+    "fabricloader": ">=0.16.0",
+    "minecraft": "~1.21.4",
+    "java": ">=21",
+    "fabric-api": "*"
+  }
+}
