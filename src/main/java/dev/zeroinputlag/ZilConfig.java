@@ -16,7 +16,10 @@ public final class ZilConfig {
     public boolean enabled = true;
     public boolean latePolling = true;
     public boolean rawMouse = true;
-    public boolean renderLoopInput = true;
+    public boolean disableVsync = true;
+    public boolean overlay = false;
+    /** Movement assist (SOCD "last key wins"). Off by default; banned on most servers. */
+    public boolean snapTap = false;
 
     private static Path path() {
         return FabricLoader.getInstance().getConfigDir().resolve("zeroinputlag.json");
