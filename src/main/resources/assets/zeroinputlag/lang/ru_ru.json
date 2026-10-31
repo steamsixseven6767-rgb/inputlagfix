@@ -1,4 +1,5 @@
 {
   "key.zeroinputlag.toggle": "Вкл/выкл ZeroInputLag",
+  "key.zeroinputlag.overlay": "Вкл/выкл оверлей задержки",
   "category.zeroinputlag": "ZeroInputLag"
 }
