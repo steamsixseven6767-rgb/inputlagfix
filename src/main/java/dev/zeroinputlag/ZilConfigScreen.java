@@ -33,19 +33,22 @@ public class ZilConfigScreen extends Screen {
     @Override
     protected void init() {
         ZilConfig c = ZilConfig.get();
-        int y = this.height / 4;
+        int y = 36;
+        int step = 22;
         toggle(y, "Mod enabled", () -> c.enabled, v -> c.enabled = v);
-        toggle(y + 24, "Late input polling", () -> c.latePolling, v -> c.latePolling = v);
-        toggle(y + 48, "Raw mouse (no smoothing)", () -> c.rawMouse, v -> c.rawMouse = v);
-        toggle(y + 72, "Render-loop input", () -> c.renderLoopInput, v -> c.renderLoopInput = v);
+        toggle(y + step, "Late input polling", () -> c.latePolling, v -> c.latePolling = v);
+        toggle(y + step * 2, "Raw mouse (no smoothing)", () -> c.rawMouse, v -> c.rawMouse = v);
+        toggle(y + step * 3, "Force VSync off", () -> c.disableVsync, v -> c.disableVsync = v);
+        toggle(y + step * 4, "Latency overlay", () -> c.overlay, v -> c.overlay = v);
+        toggle(y + step * 5, "SnapTap (risky!)", () -> c.snapTap, v -> c.snapTap = v);
         addDrawableChild(ButtonWidget.builder(Text.literal("Done"), b -> close())
-                .dimensions(this.width / 2 - 100, y + 110, 200, 20).build());
+                .dimensions(this.width / 2 - 100, y + step * 6 + 6, 200, 20).build());
     }
 
     @Override
     public void render(DrawContext context, int mouseX, int mouseY, float delta) {
         super.render(context, mouseX, mouseY, delta);
-        context.drawCenteredTextWithShadow(this.textRenderer, this.title, this.width / 2, 20, 0xFFFFFF);
+        context.drawCenteredTextWithShadow(this.textRenderer, this.title, this.width / 2, 16, 0xFFFFFF);
     }
 
     @Override
