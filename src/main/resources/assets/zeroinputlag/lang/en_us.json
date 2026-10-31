@@ -1,4 +1,5 @@
 {
   "key.zeroinputlag.toggle": "Toggle ZeroInputLag",
+  "key.zeroinputlag.overlay": "Toggle latency overlay",
   "category.zeroinputlag": "ZeroInputLag"
 }
