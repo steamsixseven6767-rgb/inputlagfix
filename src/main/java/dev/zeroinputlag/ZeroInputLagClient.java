@@ -3,11 +3,13 @@ package dev.zeroinputlag;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
-import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
+import net.fabricmc.fabric.api.client.rendering.v1.hud.HudElementRegistry;
+import net.fabricmc.fabric.api.client.rendering.v1.hud.VanillaHudElements;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.text.Text;
+import net.minecraft.util.Identifier;
 import org.lwjgl.glfw.GLFW;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,11 +25,14 @@ public final class ZeroInputLagClient implements ClientModInitializer {
     public void onInitializeClient() {
         ZilConfig.load();
 
-        // F8 / F9 are unused by vanilla 1.21.4; rebindable in Controls.
+        // F8 / F9 are unused by vanilla; rebindable in Controls.
+        KeyBinding.Category category = KeyBinding.Category.create(Identifier.of("zeroinputlag", "main"));
         toggleKey = KeyBindingHelper.registerKeyBinding(new KeyBinding(
-                "key.zeroinputlag.toggle", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_F8, "category.zeroinputlag"));
+                "key.zeroinputlag.toggle", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_F8, category));
         overlayKey = KeyBindingHelper.registerKeyBinding(new KeyBinding(
-                "key.zeroinputlag.overlay", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_F9, "category.zeroinputlag"));
+                "key.zeroinputlag.overlay", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_F9, category));
+
+        ClientTickEvents.START_CLIENT_TICK.register(SnapTap::update);
 
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
             ZilConfig cfg = ZilConfig.get();
@@ -46,7 +51,8 @@ public final class ZeroInputLagClient implements ClientModInitializer {
             }
         });
 
-        HudRenderCallback.EVENT.register((context, tickCounterRef) -> {
+        HudElementRegistry.attachElementBefore(VanillaHudElements.CHAT,
+                Identifier.of("zeroinputlag", "overlay"), (context, tickCounterRef) -> {
             Metrics.onFrame();
             ZilConfig cfg = ZilConfig.get();
             if (!cfg.enabled || !cfg.overlay) return;
