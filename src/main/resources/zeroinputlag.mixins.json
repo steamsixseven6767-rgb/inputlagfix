@@ -6,7 +6,7 @@
   "client": [
     "MouseMixin",
     "MinecraftClientMixin",
-    "KeyboardInputMixin"
+    "KeyBindingMixin"
   ],
   "injectors": {
     "defaultRequire": 1
